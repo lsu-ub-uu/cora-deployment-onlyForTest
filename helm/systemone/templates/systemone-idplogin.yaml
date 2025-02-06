@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: systemone-idplogin-deployment
+  labels:
+    app: systemone-idplogin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: systemone-idplogin
+  template:
+    metadata:
+      labels:
+        app: systemone-idplogin
+    spec:
+      initContainers:
+        {{- toYaml .Values.initContainers.waitForDb | nindent 6 }}
+      containers:
+      - name: systemone-idplogin
+        image: {{ .Values.dockerRepository.url }}cora-docker-idplogin:1.0-SNAPSHOT
+        ports:
+        - containerPort: 8080
+        env:
+        - name: JAVA_OPTS
+          value: -Dtoken.logout.url=http://login:8080/login/rest/authToken/
+      imagePullSecrets:
+      - name: cora-dockers
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: idplogin
+spec:
+  type: NodePort
+  selector:
+    app: systemone-idplogin
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30380

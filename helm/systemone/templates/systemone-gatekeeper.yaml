@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: systemone-gatekeeper-deployment
+  labels:
+    app: systemone-gatekeeper
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: systemone-gatekeeper
+  template:
+    metadata:
+      labels:
+        app: systemone-gatekeeper
+    spec:
+      initContainers:
+        {{- toYaml .Values.initContainers.waitForDb | nindent 6 }}
+      containers:
+      - name: systemone-gatekeeper
+        image: {{ .Values.dockerRepository.url }}systemone-docker-gatekeeper:1.0-SNAPSHOT
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: cora-dockers
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gatekeeper
+spec:
+  selector:
+    app: systemone-gatekeeper
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080

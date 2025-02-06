@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: systemone-login-deployment
+  labels:
+    app: systemone-login
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: systemone-login
+  template:
+    metadata:
+      labels:
+        app: systemone-login
+    spec:
+      initContainers:
+        {{- toYaml .Values.initContainers.waitForDb | nindent 6 }}
+      containers:
+      - name: systemone-login
+        image: {{ .Values.dockerRepository.url }}cora-docker-login:1.0-SNAPSHOT
+        ports:
+        - containerPort: 8080
+        env:
+        - name: JAVA_OPTS
+          value: >-
+			-Dlogin.public.path.to.system=/login/rest/
+			-Ddburl=jdbc:postgresql://systemone-postgresql:5432/systemone
+			-Ddbusername=systemone
+		    -Ddbpassword=$(POSTGRES_PASSWORD)
+		- name: POSTGRES_PASSWORD
+		  valueFrom:
+		    secretKeyRef:
+		      name: systemone-secret
+		      key: POSTGRES_PASSWORD
+      imagePullSecrets:
+      - name: cora-dockers
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: login
+spec:
+  type: NodePort
+  selector:
+    app: systemone-login
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30180

@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: systemone-iip-deployment
+  labels:
+    app: systemone-iip
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: systemone-iip
+  template:
+    metadata:
+      labels:
+        app: systemone-iip
+    spec:
+      containers:
+      - name: systemone-iip
+        image: {{ .Values.dockerRepository.url }}cora-docker-iipimageserver:1.0-SNAPSHOT
+        ports:
+        - containerPort: 80
+        env:
+        - name: VERBOSITY
+          value: "0"
+        - name: FILESYSTEM_PREFIX
+          value: "/tmp/sharedFileStorage/systemOne/streams/"
+        - name: FILESYSTEM_SUFFIX
+          value: "-jp2"
+        - name: CORS
+          value: "*"
+        - name: MAX_IMAGE_CACHE_SIZE
+          value: "1000"
+        volumeMounts:
+        - mountPath: "/tmp/sharedFileStorage/systemOne"
+          name: converted-files-read-only
+      volumes:
+        - name: converted-files-read-only
+          persistentVolumeClaim:
+            claimName: {{ .Values.system.name }}-converted-files-read-only-volume-claim
+      imagePullSecrets:
+      - name: cora-dockers
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: systemone-iipimageserver
+spec:
+  type: NodePort
+  selector:
+    app: systemone-iip
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      #nodePort: 30480

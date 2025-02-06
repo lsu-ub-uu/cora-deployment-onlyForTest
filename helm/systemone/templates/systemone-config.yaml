@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: systemone-config
+data:
+  postgresql-url: systemone-postgresql
+  solr-url: solr-service
+  fedora-url: fedora-service
+  dataDividers: "cora jsClient systemOne testSystem"

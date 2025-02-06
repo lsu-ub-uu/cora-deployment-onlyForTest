@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: systemone-fedora-deployment
+  labels:
+    app: systemone-fedora
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: systemone-fedora
+  template:
+    metadata:
+      labels:
+        app: systemone-fedora
+    spec:
+      containers:
+      - name: systemone-fedora
+        image: {{ .Values.dockerRepository.url }}cora-docker-fedora:1.0-SNAPSHOT
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - mountPath: "/usr/local/tomcat/fcrepo-home/data/ocfl-root"
+          name: archive-read-write
+      volumes:
+        - name: archive-read-write
+          persistentVolumeClaim:
+            claimName: {{ .Values.system.name }}-archive-read-write-volume-claim
+      imagePullSecrets:
+      - name: cora-dockers
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: systemone-fedora
+spec:
+  type: NodePort
+  selector:
+    app: systemone-fedora
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
