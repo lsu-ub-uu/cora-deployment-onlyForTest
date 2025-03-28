@@ -126,13 +126,13 @@ system:
   name: systemone
 
 dockerRepository:
-  url: nexus.xxx.se/repository/cora-dockers/
+  url: docker.epc.ub.uu.se/
 
 initContainers:
   waitForDb:
-    - name: init-wait-for-db
-      image: alpine
-      command: ["/bin/sh", "-c", "for i in $(seq 1 300); do nc -zvw1 systemone-postgresql 5432 && exit 0 || sleep 1; done; exit 1"]
+     - name: init-wait-for-db
+       image: alpine
+       command: ["/bin/sh", "-c", "while ! nc -zvw1 systemone-postgresql 5432; do sleep 1; done"]
   waitForMq:
     - name: check-rabbitmq
       image: alpine
@@ -141,10 +141,3 @@ initContainers:
     - name: wait-for-db-using-dns
       image: busybox
       command: ['sh', '-c', 'until nslookup systemone-postgresql.helm-systemone.svc.cluster.local; do echo waiting for DNS; sleep 2; done']
-
-
-#      command: ['sh', '-c', 'until nc -z -v -w30 {{ .Values.system.name }}-rabbitmq 5672; do echo "Waiting for RabbitMQ.."; sleep 5; done']
-
-#        - "/bin/sh"
-#        - "-c"
-#        - "for i in $(seq 1 300); do nc -zvw1 systemone-postgresql 5432 && exit 0 || sleep 1; done; exit 1"

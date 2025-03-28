@@ -23,21 +23,10 @@ spec:
         - containerPort: 8080
         env:
         - name: JAVA_OPTS
-          value: >-
-			-Dlogin.public.path.to.system=/login/rest/
-			-Ddburl=jdbc:postgresql://systemone-postgresql:5432/systemone
-			-Ddbusername=systemone
-		    -Ddbpassword=$(POSTGRES_PASSWORD)
-		- name: POSTGRES_PASSWORD
-		  valueFrom:
-		    secretKeyRef:
-		      name: systemone-secret
-		      key: POSTGRES_PASSWORD
+          value: -Dlogin.public.path.to.system=/login/rest/ -Ddburl=jdbc:postgresql://systemone-postgresql:5432/systemone -Ddbusername=systemone -Ddbpassword=systemone
       imagePullSecrets:
       - name: cora-dockers
-
 ---
-
 apiVersion: v1
 kind: Service
 metadata:

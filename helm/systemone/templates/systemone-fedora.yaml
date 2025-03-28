@@ -30,7 +30,6 @@ spec:
       - name: cora-dockers
 
 ---
-
 apiVersion: v1
 kind: Service
 metadata:

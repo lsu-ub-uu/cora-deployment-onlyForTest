@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: systemone-rabbitmq
-        image: {{ .Values.dockerRepository.url }}cora-docker-rabbitmq:1.0-SNAPSHOT
+        image: {{ .Values.dockerRepository.url }}cora-docker-rabbitmq:1.1-SNAPSHOT
         ports:
         - containerPort: 5672
       imagePullSecrets:

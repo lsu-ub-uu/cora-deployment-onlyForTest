@@ -26,9 +26,7 @@ spec:
           value: -Dtoken.logout.url=http://login:8080/login/rest/authToken/
       imagePullSecrets:
       - name: cora-dockers
-
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
