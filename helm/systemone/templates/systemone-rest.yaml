@@ -14,10 +14,10 @@ spec:
       labels:
         app: systemone-rest
     spec:
-      #initContainers:
-      #- name: init-wait-for-db
-      #  image: alpine
-      #  command: ["/bin/sh", "-c", "for i in $(seq 1 300); do nc -zvw1 systemone-postgresql 5432 && exit 0 || sleep 1; done; exit 1"]
+      initContainers:
+        {{- toYaml .Values.initContainers.waitForDb | nindent 6 }}
+      initContainers:
+        {{- toYaml .Values.initContainers.waitForMq | nindent 6 }}
       containers:
       - name: systemone-rest
         image: {{ .Values.dockerRepository.url }}systemone-docker:1.0-SNAPSHOT

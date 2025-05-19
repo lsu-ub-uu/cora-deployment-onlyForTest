@@ -16,6 +16,8 @@ spec:
     spec:
       initContainers:
         {{- toYaml .Values.initContainers.waitForDb | nindent 6 }}
+      initContainers:
+        {{- toYaml .Values.initContainers.waitForMq | nindent 6 }}
       containers:
       - name: systemone-gatekeeper
         image: {{ .Values.dockerRepository.url }}systemone-docker-gatekeeper:1.0-SNAPSHOT
