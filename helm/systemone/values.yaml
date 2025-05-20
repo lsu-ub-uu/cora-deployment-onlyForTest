@@ -137,9 +137,5 @@ initContainers:
     - name: check-rabbitmq
       image: alpine
       command: ['sh', '-c', 'until nc -z -v -w1 systemone-rabbitmq 5672; do echo "Waiting for RabbitMQ.."; sleep 5; done']
-  waitForDbUsingDns:
-    - name: wait-for-db-using-dns
-      image: busybox
-      command: ['sh', '-c', 'until nslookup systemone-postgresql.helm-systemone.svc.cluster.local; do echo waiting for DNS; sleep 2; done']
 
 deployFitNesse: false
