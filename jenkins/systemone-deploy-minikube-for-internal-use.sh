@@ -13,11 +13,12 @@ kubectl apply -f helm-systemone-minikube-persistent-volumes.yaml --namespace=sys
 helm install systemone-internal systemone --namespace systemone-internal --set deployFitNesse=true
 
 # List of URLs to check
+HOST="192.168.49.2"
 URLS=(
-  "http://175.18.0.15:30580"
-  "http://175.18.0.15:30080"
-  "http://175.18.0.15:30180"
-  "http://175.18.0.15:30380"
+  "http://$HOST:30580"
+  "http://$HOST:30080"
+  "http://$HOST:30180"
+  "http://$HOST:30380"
 )
 
 MAX_ATTEMPTS=30
@@ -28,7 +29,8 @@ echo "Waiting for all URLs to become accessible..."
 for URL in "${URLS[@]}"; do
   attempt=1
   while (( attempt <= MAX_ATTEMPTS )); do
-    if curl --silent --head --fail "$URL" > /dev/null; then
+    if curl -s -o /dev/null -w "%{http_code}\n" "$URL" == 200 then
+   # if curl --silent --head --fail "$URL" > /dev/null; then
       echo "Success: $URL is accessible."
       break
     else
