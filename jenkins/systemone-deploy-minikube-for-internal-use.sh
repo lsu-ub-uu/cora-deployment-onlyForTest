@@ -1,13 +1,13 @@
 #!/bin/bash
-helm uninstall systemone-internal -n systemone-internal
+helm uninstall systemone-build -n systemone-build
 
-kubectl delete pv systemone-internal-postgres-volume
-kubectl delete pv systemone-internal-archive-volume
-kubectl delete pv systemone-internal-archive-read-only-volume
-kubectl delete pv systemone-internal-converted-files-volume
-kubectl delete pv systemone-internal-converted-files-read-only-volume
+kubectl delete pv systemone-build-postgres-volume
+kubectl delete pv systemone-build-archive-volume
+kubectl delete pv systemone-build-archive-read-only-volume
+kubectl delete pv systemone-build-converted-files-volume
+kubectl delete pv systemone-build-converted-files-read-only-volume
 
 cd helm
-kubectl create namespace systemone-internal
-kubectl apply -f helm-systemone-minikube-persistent-volumes.yaml --namespace=systemone-internal
-helm install systemone-internal systemone --namespace systemone-internal --set deployFitNesse=true
+kubectl create namespace systemone-build
+kubectl apply -f helm-systemone-minikube-persistent-volumes.yaml --namespace=systemone-build
+helm install systemone-build systemone --namespace systemone-build --set deployFitNesse=true
