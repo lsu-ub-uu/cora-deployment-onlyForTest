@@ -23,6 +23,11 @@ echo "Removing local persistent data from /mnt/minikube/systemone/build..."
 rm -rf /mnt/minikube/systemone/build
 
 echo ""
+echo "Check everything is deleted"
+ls /mnt/minikube/systemone/build
+kubectl get node,pods,pv,pvc,all -A -o wide
+
+echo ""
 echo "Creating namespace '$NAMESPACE'..."
 cd helm
 kubectl create namespace $NAMESPACE
