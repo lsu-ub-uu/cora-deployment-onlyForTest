@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: systemone-fitnesse
-        image: {{ .Values.dockerRepository.url }}systemone-docker-fitnesse:1.1-SNAPSHOT
+        image: {{ .Values.dockerRepository.url }}systemone-docker-fitnesse:1.2-SNAPSHOT
         ports:
         - containerPort: 8090
         volumeMounts:
