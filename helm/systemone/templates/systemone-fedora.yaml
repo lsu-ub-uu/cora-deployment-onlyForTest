@@ -35,7 +35,6 @@ kind: Service
 metadata:
   name: systemone-fedora
 spec:
-  type: NodePort
   selector:
     app: systemone-fedora
   ports:
