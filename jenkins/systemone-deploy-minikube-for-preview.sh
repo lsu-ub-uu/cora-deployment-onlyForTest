@@ -1,18 +1,42 @@
 #!/bin/bash
-helm uninstall systemone-preview -n systemone-preview
-kubectl delete namespace systemone-preview
 
-kubectl delete pv systemone-preview-postgres-volume
-kubectl delete pv systemone-preview-archive-volume
-kubectl delete pv systemone-preview-archive-read-only-volume
-kubectl delete pv systemone-preview-converted-files-volume
-kubectl delete pv systemone-preview-converted-files-read-only-volume
+NAMESPACE="systemone-preview"
 
+echo ""
+echo "Uninstalling Helm release '$NAMESPACE' from namespace '$NAMESPACE'..."
+helm uninstall $NAMESPACE -n $NAMESPACE
+
+echo ""
+echo "Deleting Kubernetes namespace '$NAMESPACE'..."
+kubectl delete namespace $NAMESPACE
+
+echo ""
+echo "Deleting persistent volumes for '$NAMESPACE'..."
+kubectl delete pv ${NAMESPACE}-postgres-volume
+kubectl delete pv ${NAMESPACE}-archive-volume
+kubectl delete pv ${NAMESPACE}-archive-read-only-volume
+kubectl delete pv ${NAMESPACE}-converted-files-volume
+kubectl delete pv ${NAMESPACE}-converted-files-read-only-volume
+
+echo ""
+echo "Removing local persistent data from /mnt/minikube/systemone/preview..."
 rm -rf /mnt/minikube/systemone/preview
 
+echo ""
+echo "Creating namespace '$NAMESPACE'..."
 cd helm
-kubectl create namespace systemone-preview
-kubectl apply -f helm-systemone-preview-minikube-persistent-volumes.yaml --namespace=systemone-preview
-helm install systemone-preview systemone --namespace systemone-preview --set deploy.fitnesse=true
+kubectl create namespace $NAMESPACE
 
-kubectl wait --for=condition=Ready pod --all --namespace=systemone-preview --timeout=300s
+echo ""
+echo "Applying persistent volume definitions from 'helm-${NAMESPACE}-minikube-persistent-volumes.yaml'..."
+kubectl apply -f helm-${NAMESPACE}-minikube-persistent-volumes.yaml --namespace=$NAMESPACE
+
+echo ""
+echo "Installing Helm chart 'systemone' as release '$NAMESPACE' with FitNesse enabled in namespace '$NAMESPACE'..."
+helm install $NAMESPACE systemone --namespace $NAMESPACE --set deploy.fitnesse=true
+
+echo ""
+echo "Waiting for all pods in '$NAMESPACE' namespace to become ready (timeout: 300s)..."
+kubectl wait --for=condition=Ready pod --all --namespace=$NAMESPACE --timeout=300s
+
+echo "Deployment of $NAMESPACE completed successfully."
