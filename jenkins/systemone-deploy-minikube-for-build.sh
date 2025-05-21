@@ -14,3 +14,5 @@ cd helm
 kubectl create namespace systemone-build
 kubectl apply -f helm-systemone-build-minikube-persistent-volumes.yaml --namespace=systemone-build
 helm install systemone-build systemone --namespace systemone-build -f ../jenkins/build-values.yaml
+
+kubectl wait --for=condition=Ready pod --all --namespace=systemone-build --timeout=300s

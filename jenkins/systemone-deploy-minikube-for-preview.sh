@@ -14,3 +14,5 @@ cd helm
 kubectl create namespace systemone-preview
 kubectl apply -f helm-systemone-preview-minikube-persistent-volumes.yaml --namespace=systemone-preview
 helm install systemone-preview systemone --namespace systemone-preview
+
+kubectl wait --for=condition=Ready pod --all --namespace=systemone-preview --timeout=300s
