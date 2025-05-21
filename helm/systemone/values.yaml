@@ -147,4 +147,5 @@ port:
   login: 30180
   jsclient: 30280
   idplogin: 30380
+  fitnesse: 30580
 
