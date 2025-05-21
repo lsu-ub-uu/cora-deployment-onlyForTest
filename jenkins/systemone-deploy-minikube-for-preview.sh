@@ -13,4 +13,4 @@ rm -rf /mnt/minikube/systemone/preview
 cd helm
 kubectl create namespace systemone-preview
 kubectl apply -f helm-systemone-preview-minikube-persistent-volumes.yaml --namespace=systemone-preview
-helm install systemone-preview systemone --namespace systemone-preview
+helm install systemone-preview systemone --namespace systemone-preview --set deploy.fitnesse=true
