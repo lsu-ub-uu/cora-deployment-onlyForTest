@@ -28,7 +28,7 @@ cd helm
 kubectl create namespace $NAMESPACE
 
 echo ""
-echo "Applying persistent volume definitions from 'helm-${NAMESPACE}-minikube-persistent-volumes.yaml'..."
+echo "Applying persistent volume definitions"
 kubectl apply -f helm-${NAMESPACE}-minikube-persistent-volumes.yaml --namespace=$NAMESPACE
 
 echo ""

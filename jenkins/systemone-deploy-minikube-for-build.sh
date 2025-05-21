@@ -28,12 +28,12 @@ ls /mnt/minikube/systemone/build
 kubectl get node,pods,pv,pvc,all -A -o wide
 
 echo ""
-echo "Creating namespace '$NAMESPACE'..."
+echo "TO REMOVE Creating namespace '$NAMESPACE'..."
 cd helm
 kubectl create namespace $NAMESPACE
 
 echo ""
-echo "Applying persistent volume definitions from 'helm-${NAMESPACE}-minikube-persistent-volumes.yaml'..."
+echo "Applying persistent volume definitions"
 kubectl apply -f helm-${NAMESPACE}-minikube-persistent-volumes.yaml --namespace=$NAMESPACE
 
 echo ""
@@ -43,5 +43,9 @@ helm install $NAMESPACE systemone --namespace $NAMESPACE -f ../jenkins/build-val
 echo ""
 echo "Waiting for all pods in '$NAMESPACE' namespace to become ready (timeout: 300s)..."
 kubectl wait --for=condition=Ready pod --all --namespace=$NAMESPACE --timeout=300s
+
+echo ""
+echo "TO REMOVE read folder '$NAMESPACE'..."
+ls /mnt/minikube/systemone/build
 
 echo "Deployment of $NAMESPACE completed successfully."
