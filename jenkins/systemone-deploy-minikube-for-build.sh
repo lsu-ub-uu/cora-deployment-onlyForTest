@@ -20,12 +20,13 @@ kubectl delete pv ${NAMESPACE}-converted-files-read-only-volume
 
 echo ""
 echo "Removing local persistent data from /mnt/minikube/systemone/build..."
-rm -rf /mnt/minikube/systemone/build
+#rm -rf /mnt/minikube/systemone/build
+minikube ssh -- "sudo rm -rf /mnt/minikube/systemone/build"
 
 echo ""
 echo "Check everything is deleted"
 ls /mnt/minikube/systemone/build
-kubectl get node,pods,pv,pvc,all -A -o wide
+#kubectl get node,pods,pv,pvc,all -A -o wide
 
 echo ""
 echo "TO REMOVE Creating namespace '$NAMESPACE'..."
