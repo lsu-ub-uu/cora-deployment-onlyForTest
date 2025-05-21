@@ -10,4 +10,4 @@ kubectl delete pv systemone-build-converted-files-read-only-volume
 cd helm
 kubectl create namespace systemone-build
 kubectl apply -f helm-systemone-build-minikube-persistent-volumes.yaml --namespace=systemone-build
-helm install systemone-build systemone --namespace systemone-build --set deployFitNesse=true --set deployJsClient=false
+helm install systemone-build systemone --namespace systemone-build -f build-values.yaml

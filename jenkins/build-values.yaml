@@ -1,0 +1,9 @@
+deploy:
+  fitnesse: true
+  jsclient: false
+
+port:
+  rest: 40080
+  login: 40180
+  jsclient: 40280
+  idplogin: 40380
