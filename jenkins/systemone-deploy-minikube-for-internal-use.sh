@@ -12,13 +12,18 @@ kubectl create namespace systemone-internal
 kubectl apply -f helm-systemone-minikube-persistent-volumes.yaml --namespace=systemone-internal
 helm install systemone-internal systemone --namespace systemone-internal --set deployFitNesse=true
 
-# List of URLs to check
-HOST="192.168.49.2"
+if [ -z "$1" ]; then
+  echo "Usage: $0 <MINIKUBE_IP>"
+  exit 1
+fi
+
+MINIKUBE_IP="$1"
+
 URLS=(
-  "http://$HOST:30580"
-  "http://$HOST:30080"
-  "http://$HOST:30180"
-  "http://$HOST:30380"
+  "http://$MINIKUBE_IP:30580"
+  "http://$MINIKUBE_IP:30080"
+  "http://$MINIKUBE_IP:30180"
+  "http://$MINIKUBE_IP:30380"
 )
 
 MAX_ATTEMPTS=30
@@ -29,12 +34,12 @@ echo "Waiting for all URLs to become accessible..."
 for URL in "${URLS[@]}"; do
   attempt=1
   while (( attempt <= MAX_ATTEMPTS )); do
-    if curl -s -o /dev/null -w "%{http_code}\n" "$URL" == 200 then
-   # if curl --silent --head --fail "$URL" > /dev/null; then
+    HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" "$URL")
+    if [ "$HTTP_CODE" == "200" ]; then
       echo "Success: $URL is accessible."
       break
     else
-      echo "Attempt $attempt/$MAX_ATTEMPTS failed for $URL. Retrying in $SLEEP_SECONDS seconds..."
+      echo "Attempt $attempt/$MAX_ATTEMPTS failed for $URL (HTTP $HTTP_CODE). Retrying in $SLEEP_SECONDS seconds..."
       (( attempt++ ))
       sleep $SLEEP_SECONDS
     fi
