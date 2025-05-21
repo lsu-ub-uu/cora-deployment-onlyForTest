@@ -3,7 +3,7 @@ deploy:
   jsclient: false
 
 port:
-  rest: 40080
-  login: 40180
-  jsclient: 40280
-  idplogin: 40380
+  rest: 31080
+  login: 31180
+  jsclient: 31280
+  idplogin: 31380
