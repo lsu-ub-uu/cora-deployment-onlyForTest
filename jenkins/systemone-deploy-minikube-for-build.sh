@@ -20,16 +20,10 @@ kubectl delete pv ${NAMESPACE}-converted-files-read-only-volume
 
 echo ""
 echo "Removing local persistent data from /mnt/minikube/systemone/build..."
-#rm -rf /mnt/minikube/systemone/build
 minikube ssh -- "sudo rm -rf /mnt/minikube/systemone/build"
 
 echo ""
-echo "Check everything is deleted"
-ls /mnt/minikube/systemone/build
-#kubectl get node,pods,pv,pvc,all -A -o wide
-
-echo ""
-echo "TO REMOVE Creating namespace '$NAMESPACE'..."
+echo "Creating namespace '$NAMESPACE'..."
 cd helm
 kubectl create namespace $NAMESPACE
 
@@ -44,9 +38,5 @@ helm install $NAMESPACE systemone --namespace $NAMESPACE -f ../jenkins/build-val
 echo ""
 echo "Waiting for all pods in '$NAMESPACE' namespace to become ready (timeout: 300s)..."
 kubectl wait --for=condition=Ready pod --all --namespace=$NAMESPACE --timeout=300s
-
-echo ""
-echo "TO REMOVE read folder '$NAMESPACE'..."
-ls /mnt/minikube/systemone/build
 
 echo "Deployment of $NAMESPACE completed successfully."

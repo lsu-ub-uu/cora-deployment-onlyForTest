@@ -20,7 +20,7 @@ kubectl delete pv ${NAMESPACE}-converted-files-read-only-volume
 
 echo ""
 echo "Removing local persistent data from /mnt/minikube/systemone/preview..."
-rm -rf /mnt/minikube/systemone/preview
+minikube ssh -- "sudo rm -rf /mnt/minikube/systemone/preview"
 
 echo ""
 echo "Creating namespace '$NAMESPACE'..."
