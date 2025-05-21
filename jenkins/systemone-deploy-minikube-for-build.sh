@@ -7,6 +7,8 @@ kubectl delete pv systemone-build-archive-read-only-volume
 kubectl delete pv systemone-build-converted-files-volume
 kubectl delete pv systemone-build-converted-files-read-only-volume
 
+rm -rf /mnt/minikube/systemone
+
 cd helm
 kubectl create namespace systemone-build
 kubectl apply -f helm-systemone-build-minikube-persistent-volumes.yaml --namespace=systemone-build
