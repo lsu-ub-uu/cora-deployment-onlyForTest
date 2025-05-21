@@ -10,4 +10,4 @@ kubectl delete pv systemone-preview-converted-files-read-only-volume
 cd helm
 kubectl create namespace systemone-preview
 kubectl apply -f helm-systemone-preview-minikube-persistent-volumes.yaml --namespace=systemone-preview
-helm install systemone-preview systemone --namespace systemone-preview --set deployFitNesse=true
+helm install systemone-preview systemone --namespace systemone-preview
