@@ -7,6 +7,8 @@ kubectl delete pv systemone-preview-archive-read-only-volume
 kubectl delete pv systemone-preview-converted-files-volume
 kubectl delete pv systemone-preview-converted-files-read-only-volume
 
+rm -rf /mnt/minikube/systemone/preview
+
 cd helm
 kubectl create namespace systemone-preview
 kubectl apply -f helm-systemone-preview-minikube-persistent-volumes.yaml --namespace=systemone-preview
