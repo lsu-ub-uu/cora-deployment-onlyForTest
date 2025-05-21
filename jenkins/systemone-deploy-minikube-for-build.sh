@@ -1,5 +1,6 @@
 #!/bin/bash
 helm uninstall systemone-build -n systemone-build
+kubectl delete namespace systemone-build
 
 kubectl delete pv systemone-build-postgres-volume
 kubectl delete pv systemone-build-archive-volume

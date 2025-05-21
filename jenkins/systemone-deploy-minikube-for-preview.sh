@@ -1,5 +1,6 @@
 #!/bin/bash
 helm uninstall systemone-preview -n systemone-preview
+kubectl delete namespace systemone-preview
 
 kubectl delete pv systemone-preview-postgres-volume
 kubectl delete pv systemone-preview-archive-volume
