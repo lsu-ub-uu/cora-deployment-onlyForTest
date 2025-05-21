@@ -139,3 +139,4 @@ initContainers:
       command: ['sh', '-c', 'until nc -z -v -w1 systemone-rabbitmq 5672; do echo "Waiting for RabbitMQ.."; sleep 5; done']
 
 deployFitNesse: false
+deployJsClient: true

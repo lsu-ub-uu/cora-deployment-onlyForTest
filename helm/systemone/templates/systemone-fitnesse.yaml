@@ -36,10 +36,10 @@ spec:
             claimName: {{ .Values.system.name }}-converted-files-read-only-volume-claim
       imagePullSecrets:
       - name: cora-dockers
-{{- end }}
+
 
 ---
-{{- if .Values.deployFitNesse }}
+
 apiVersion: v1
 kind: Service
 metadata:
