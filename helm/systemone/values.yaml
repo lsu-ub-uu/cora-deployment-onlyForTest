@@ -149,3 +149,9 @@ port:
   idplogin: 30380
   fitnesse: 30580
 
+dockers:
+  solr: cora-docker-solr:1.0-SNAPSHOT
+  idplogin: cora-docker-idplogin:1.0-SNAPSHOT
+  rabbitmq: cora-docker-rabbitmq:1.1-SNAPSHOT
+  fedora: cora-docker-fedora:1.0-SNAPSHOT
+

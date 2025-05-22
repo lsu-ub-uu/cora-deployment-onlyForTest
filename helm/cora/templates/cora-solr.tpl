@@ -1,22 +1,23 @@
+{{- define "cora.solr" -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: systemone-solr-deployment
+  name: {{ .Values.system.name }}-solr-deployment
   labels:
-    app: systemone-solr
+    app: {{ .Values.system.name }}-solr
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: systemone-solr
+      app: {{ .Values.system.name }}-solr
   template:
     metadata:
       labels:
-        app: systemone-solr
+        app: {{ .Values.system.name }}-solr
     spec:
       containers:
-      - name: systemone-solr
-        image: {{ .Values.dockerRepository.url }}cora-docker-solr:1.0-SNAPSHOT
+      - name: {{ .Values.system.name }}-solr
+        image: {{ .Values.dockerRepository.url }}{{ .Values.dockers.solr }}
         ports:
         - containerPort: 8983
         args: ["solr-precreate", "coracore", "/opt/solr/server/solr/configsets/coradefaultcore"]
@@ -24,14 +25,16 @@ spec:
       - name: cora-dockers
 
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
   name: solr
 spec:
   selector:
-    app: systemone-solr
+    app: {{ .Values.system.name }}-solr
   ports:
     - protocol: TCP
       port: 8983
       targetPort: 8983
+{{- end }}

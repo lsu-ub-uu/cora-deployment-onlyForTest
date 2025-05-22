@@ -1,24 +1,25 @@
+{{- define "cora.idplogin" -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: systemone-idplogin-deployment
+  name: {{ .Values.system.name }}-idplogin-deployment
   labels:
-    app: systemone-idplogin
+    app: {{ .Values.system.name }}-idplogin
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: systemone-idplogin
+      app: {{ .Values.system.name }}-idplogin
   template:
     metadata:
       labels:
-        app: systemone-idplogin
+        app: {{ .Values.system.name }}-idplogin
     spec:
       initContainers:
         {{- toYaml .Values.initContainers.waitForDb | nindent 6 }}
       containers:
-      - name: systemone-idplogin
-        image: {{ .Values.dockerRepository.url }}cora-docker-idplogin:1.0-SNAPSHOT
+      - name: {{ .Values.system.name }}-idplogin
+        image: {{ .Values.dockerRepository.url }}{{ .Values.dockers.idplogin }}
         ports:
         - containerPort: 8080
         env:
@@ -26,7 +27,9 @@ spec:
           value: -Dtoken.logout.url=http://login:8080/login/rest/authToken/
       imagePullSecrets:
       - name: cora-dockers
+
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -34,9 +37,10 @@ metadata:
 spec:
   type: NodePort
   selector:
-    app: systemone-idplogin
+    app: {{ .Values.system.name }}-idplogin
   ports:
     - protocol: TCP
       port: 8080
       targetPort: 8080
       nodePort:  {{ .Values.port.idplogin }}
+{{- end -}}

@@ -1,0 +1,7 @@
+{{ include "cora.solr" . }}
+---
+{{ include "cora.idplogin" . }}
+---
+{{ include "cora.rabbitmq" . }}
+---
+{{ include "cora.fedora" . }}

@@ -1,22 +1,23 @@
+{{- define "cora.fedora" -}}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: systemone-fedora-deployment
+  name: {{ .Values.system.name }}-fedora-deployment
   labels:
-    app: systemone-fedora
+    app: {{ .Values.system.name }}-fedora
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: systemone-fedora
+      app: {{ .Values.system.name }}-fedora
   template:
     metadata:
       labels:
-        app: systemone-fedora
+        app: {{ .Values.system.name }}-fedora
     spec:
       containers:
-      - name: systemone-fedora
-        image: {{ .Values.dockerRepository.url }}cora-docker-fedora:1.0-SNAPSHOT
+      - name: {{ .Values.system.name }}-fedora
+        image: {{ .Values.dockerRepository.url }}{{ .Values.dockers.fedora }}
         ports:
         - containerPort: 8080
         volumeMounts:
@@ -30,14 +31,16 @@ spec:
       - name: cora-dockers
 
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
-  name: systemone-fedora
+  name: {{ .Values.system.name }}-fedora
 spec:
   selector:
-    app: systemone-fedora
+    app: {{ .Values.system.name }}-fedora
   ports:
     - protocol: TCP
       port: 8080
       targetPort: 8080
+{{- end }}
