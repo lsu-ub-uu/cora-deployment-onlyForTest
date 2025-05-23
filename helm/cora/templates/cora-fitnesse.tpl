@@ -1,31 +1,31 @@
+{{- define "cora.fitnesse" -}}
 {{- if .Values.deploy.fitnesse }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: systemone-fitnesse-deployment
+  name: {{ .Values.system.name }}-fitnesse-deployment
   labels:
-    app: systemone-fitnesse
+    app: {{ .Values.system.name }}-fitnesse
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: systemone-fitnesse
+      app: {{ .Values.system.name }}-fitnesse
   template:
     metadata:
       labels:
-        app: systemone-fitnesse
+        app: {{ .Values.system.name }}-fitnesse
     spec:
       containers:
-      - name: systemone-fitnesse
-        image: {{ .Values.dockerRepository.url }}systemone-docker-fitnesse:1.2-SNAPSHOT
+      - name: {{ .Values.system.name }}-fitnesse
+        image: {{ .Values.dockerRepository.url }}{{ .Values.dockers.fitnesse }}
         ports:
         - containerPort: 8090
         volumeMounts:
-        - mountPath: "/tmp/sharedArchiveReadable/systemOne"
+        - mountPath: "/tmp/sharedArchiveReadable/{{ .Values.system.pathName }}"
           name: archive-read-only
           readOnly: true
-          #recursiveReadOnly: Enabled
-        - mountPath: "/tmp/sharedFileStorage/systemOne"
+        - mountPath: "/tmp/sharedFileStorage/{{ .Values.system.pathName }}"
           name: converted-files-read-write
       volumes:
         - name: archive-read-only
@@ -43,14 +43,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: fitnesse
+  name: {{ .Values.system.name }}-fitnesse
 spec:
   type: NodePort
   selector:
-    app: systemone-fitnesse
+    app: {{ .Values.system.name }}-fitnesse
   ports:
     - protocol: TCP
       port: 8090
       targetPort: 8090
       nodePort:  {{ .Values.port.fitnesse }}
+{{- end }}
 {{- end }}

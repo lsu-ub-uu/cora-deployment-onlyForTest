@@ -1,28 +1,24 @@
+{{- define "cora.jsclient" -}}
 {{- if .Values.deploy.jsclient }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: systemone-jsclient-deployment
+  name: {{ .Values.system.name }}-jsclient-deployment
   labels:
-    app: systemone-jsclient
+    app: {{ .Values.system.name }}-jsclient
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: systemone-jsclient
+      app: {{ .Values.system.name }}-jsclient
   template:
     metadata:
       labels:
-        app: systemone-jsclient
+        app: {{ .Values.system.name }}-jsclient
     spec:
       containers:
-      - name: cora-docker-jsclient
-        #systemone-jsclient
-        #image: cora-docker-jsclient:1.0-SNAPSHOT
-        #for local image
-        #imagePullPolicy: Never
-
-        image: {{ .Values.dockerRepository.url }}cora-docker-jsclient:1.0-SNAPSHOT
+      - name: {{ .Values.system.name }}-jsclient
+        image: {{ .Values.dockerRepository.url }}{{ .Values.dockers.jsclient }}
         ports:
         - containerPort: 8080
       imagePullSecrets:
@@ -33,14 +29,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: systemone-jsclient-service
+  name: {{ .Values.system.name }}-jsclient
 spec:
   type: NodePort
   selector:
-    app: systemone-jsclient
+    app: {{ .Values.system.name }}-jsclient
   ports:
     - protocol: TCP
       port: 8080
       targetPort: 8080
       nodePort:  {{ .Values.port.jsclient }}
+{{- end }}
 {{- end }}

@@ -38,15 +38,14 @@ spec:
         - name: rabbitMqQueueName
           value: {{ .Values.binaryConverter.queueName }}
         - name: fedoraOcflHome
-          value: "/tmp/sharedArchiveReadable/systemOne"
+          value: "/tmp/sharedArchiveReadable/{{ .Values.system.pathName }}"
         - name: fileStorageBasePath
-          #is the last slash needed?
-          value: "/tmp/sharedFileStorage/systemOne/"
+          value: "/tmp/sharedFileStorage/{{ .Values.system.pathName }}"
         volumeMounts:
-        - mountPath: "/tmp/sharedArchiveReadable/systemOne"
+        - mountPath: "/tmp/sharedArchiveReadable/{{ .Values.system.pathName }}"
           name: archive-read-only
           readOnly: true
-        - mountPath: "/tmp/sharedFileStorage/systemOne"
+        - mountPath: "/tmp/sharedFileStorage/{{ .Values.system.pathName }}"
           name: converted-files-read-write
       volumes:
         - name: archive-read-only

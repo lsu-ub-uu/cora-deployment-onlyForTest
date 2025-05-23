@@ -124,6 +124,7 @@ autoscaling:
 #
 system:
   name: systemone
+  pathName: systemOne
 
 dockerRepository:
   url: docker.epc.ub.uu.se/
@@ -150,8 +151,15 @@ port:
   fitnesse: 30580
 
 dockers:
-  solr: cora-docker-solr:1.0-SNAPSHOT
-  idplogin: cora-docker-idplogin:1.0-SNAPSHOT
   rabbitmq: cora-docker-rabbitmq:1.1-SNAPSHOT
   fedora: cora-docker-fedora:1.0-SNAPSHOT
+  solr: cora-docker-solr:1.0-SNAPSHOT
+  idplogin: cora-docker-idplogin:1.0-SNAPSHOT
+  iip: cora-docker-iipimageserver:1.0-SNAPSHOT
+  postgresql: systemone-docker-postgresql:1.0-SNAPSHOT
+  fitnesse: systemone-docker-fitnesse:1.2-SNAPSHOT
+  gatekeeper: systemone-docker-gatekeeper:1.0-SNAPSHOT
+  jsclient: cora-docker-jsclient:1.0-SNAPSHOT
+  rest: systemone-docker:1.0-SNAPSHOT
+  login: cora-docker-login:1.0-SNAPSHOT
 

@@ -1,45 +1,43 @@
+{{- define "cora.postgresql" -}}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: systemone-postgresql-deployment
+  name: {{ .Values.system.name }}-postgresql-deployment
   labels:
-    app: systemone-postgresql
+    app: {{ .Values.system.name }}-postgresql
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: systemone-postgresql
+      app: {{ .Values.system.name }}-postgresql
   template:
     metadata:
       labels:
-        app: systemone-postgresql
+        app: {{ .Values.system.name }}-postgresql
     spec:
       terminationGracePeriodSeconds: 10
       containers:
-      - name: systemone-postgresql
-        image: {{ .Values.dockerRepository.url }}systemone-docker-postgresql:1.0-SNAPSHOT
+      - name: {{ .Values.system.name }}-postgresql
+        image: {{ .Values.dockerRepository.url }}{{ .Values.dockers.postgresql }}
         ports:
         - containerPort: 5432
         env:
         - name: POSTGRES_DB
-          valueFrom:
-            secretKeyRef:
-              name: systemone-secret
-              key: POSTGRES_DB
+          value: {{ .Values.system.name }}
         - name: POSTGRES_USER
           valueFrom:
             secretKeyRef:
-              name: systemone-secret
+              name: {{ .Values.system.name }}-secret
               key: POSTGRES_USER
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: systemone-secret
+              name: {{ .Values.system.name }}-secret
               key: POSTGRES_PASSWORD
         - name: DATA_DIVIDERS
           valueFrom:
             configMapKeyRef:
-              name: systemone-config
+              name: {{ .Values.system.name }}-config
               key: dataDividers
         volumeMounts:
         - mountPath: "/var/lib/postgresql/data"
@@ -52,20 +50,16 @@ spec:
       - name: cora-dockers
 
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
-  #name: systemone-postgresql-service
-  name: systemone-postgresql
+  name: {{ .Values.system.name }}-postgresql
 spec:
   selector:
-    #app.kubernetes.io/name: systemone-postgresql
-    app: systemone-postgresql
+    app: {{ .Values.system.name }}-postgresql
   ports:
     - protocol: TCP
       port: 5432
       targetPort: 5432
-
-
-
-
+{{- end }}

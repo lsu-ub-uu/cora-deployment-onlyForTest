@@ -1,26 +1,27 @@
+{{- define "cora.gatekeeper" -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: systemone-gatekeeper-deployment
+  name: {{ .Values.system.name }}-gatekeeper-deployment
   labels:
-    app: systemone-gatekeeper
+    app: {{ .Values.system.name }}-gatekeeper
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: systemone-gatekeeper
+      app: {{ .Values.system.name }}-gatekeeper
   template:
     metadata:
       labels:
-        app: systemone-gatekeeper
+        app: {{ .Values.system.name }}-gatekeeper
     spec:
       initContainers:
         {{- toYaml .Values.initContainers.waitForDb | nindent 6 }}
       initContainers:
         {{- toYaml .Values.initContainers.waitForMq | nindent 6 }}
       containers:
-      - name: systemone-gatekeeper
-        image: {{ .Values.dockerRepository.url }}systemone-docker-gatekeeper:1.0-SNAPSHOT
+      - name: {{ .Values.system.name }}-gatekeeper
+        image: {{ .Values.dockerRepository.url }}{{ .Values.dockers.gatekeeper }}
         ports:
         - containerPort: 8080
       imagePullSecrets:
@@ -32,8 +33,9 @@ metadata:
   name: gatekeeper
 spec:
   selector:
-    app: systemone-gatekeeper
+    app: {{ .Values.system.name }}-gatekeeper
   ports:
     - protocol: TCP
       port: 8080
       targetPort: 8080
+{{- end }}

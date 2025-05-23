@@ -1,26 +1,27 @@
+{{- define "cora.solr" -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: systemone-rest-deployment
+  name: {{ .Values.system.name }}-rest-deployment
   labels:
-    app: systemone-rest
+    app: {{ .Values.system.name }}-rest
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: systemone-rest
+      app: {{ .Values.system.name }}-rest
   template:
     metadata:
       labels:
-        app: systemone-rest
+        app: {{ .Values.system.name }}-rest
     spec:
       initContainers:
         {{- toYaml .Values.initContainers.waitForDb | nindent 6 }}
       initContainers:
         {{- toYaml .Values.initContainers.waitForMq | nindent 6 }}
       containers:
-      - name: systemone-rest
-        image: {{ .Values.dockerRepository.url }}systemone-docker:1.0-SNAPSHOT
+      - name: {{ .Values.system.name }}-rest
+        image: {{ .Values.dockerRepository.url }}{{ .Values.dockers.rest }}
         ports:
         - containerPort: 8080
         volumeMounts:
@@ -38,13 +39,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: systemone
+  name: {{ .Values.system.name }}
 spec:
   type: NodePort
   selector:
-    app: systemone-rest
+    app: {{ .Values.system.name }}-rest
   ports:
     - protocol: TCP
       port: 8080
       targetPort: 8080
       nodePort: {{ .Values.port.rest }}
+{{- end }}

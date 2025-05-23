@@ -1,29 +1,30 @@
+{{- define "cora.iip" -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: systemone-iip-deployment
+  name: {{ .Values.system.name }}-iip-deployment
   labels:
-    app: systemone-iip
+    app: {{ .Values.system.name }}-iip
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: systemone-iip
+      app: {{ .Values.system.name }}-iip
   template:
     metadata:
       labels:
-        app: systemone-iip
+        app: {{ .Values.system.name }}-iip
     spec:
       containers:
-      - name: systemone-iip
-        image: {{ .Values.dockerRepository.url }}cora-docker-iipimageserver:1.0-SNAPSHOT
+      - name: {{ .Values.system.name }}-iip
+        image: {{ .Values.dockerRepository.url }}{{ .Values.dockers.iip }}
         ports:
         - containerPort: 80
         env:
         - name: VERBOSITY
           value: "0"
         - name: FILESYSTEM_PREFIX
-          value: "/tmp/sharedFileStorage/systemOne/streams/"
+          value: "/tmp/sharedFileStorage/{{ .Values.system.pathName }}/streams/"
         - name: FILESYSTEM_SUFFIX
           value: "-jp2"
         - name: CORS
@@ -31,7 +32,7 @@ spec:
         - name: MAX_IMAGE_CACHE_SIZE
           value: "1000"
         volumeMounts:
-        - mountPath: "/tmp/sharedFileStorage/systemOne"
+        - mountPath: "/tmp/sharedFileStorage/{{ .Values.system.pathName }}"
           name: converted-files-read-only
       volumes:
         - name: converted-files-read-only
@@ -41,14 +42,16 @@ spec:
       - name: cora-dockers
 
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
-  name: systemone-iipimageserver
+  name: {{ .Values.system.name }}-iipimageserver
 spec:
   selector:
-    app: systemone-iip
+    app: {{ .Values.system.name }}-iip
   ports:
     - protocol: TCP
       port: 80
       targetPort: 80
+{{- end }}
