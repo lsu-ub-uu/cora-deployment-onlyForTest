@@ -12,14 +12,14 @@ minikube start --memory 32192 --cpus 16 --mount --mount-string "/mnt/someplace/m
 
 ```bash
 cd helm
-kubectl create namespace helm-systemone
-kubectl apply -f helm-systemone-minikube-persistent-volumes.yaml
-helm install my20250523systemone systemone --namespace helm-systemone --set deploy.fitnesse=true
+kubectl create namespace systemone
+kubectl apply -f systemone-minikube-persistent-volumes.yaml
+helm install my20250523systemone systemone --namespace systemone --set deploy.fitnesse=true
 ```
 you can watch the progress with:
 
 ```bash
-watch -n 1 kubectl get pod,service -n helm-systemone
+watch -n 1 kubectl get pod,service -n systemone
 ```
 
 get your minikube ip: minikube ip
@@ -35,9 +35,9 @@ This should start a local version of systemOne accessable at:<br>
 
 ### to remove and start over
 ```bash
-helm uninstall -n helm-systemone my20250523systemone
-kubectl delete $(kubectl get pv -o name | grep '^persistentvolume/helm-systemone')
-kubectl delete namespace helm-systemone
+helm uninstall -n systemone my20250523systemone
+kubectl delete $(kubectl get pv -o name | grep '^persistentvolume/systemone')
+kubectl delete namespace systemone
 minikube ssh -- "sudo rm -rf /mnt/minikube/systemone/"
 ```
 
