@@ -1,6 +1,6 @@
 # cora-deployment
 
-This repo hold helm scripts for systemone, alvin and Diva.
+This repo hold helm charts for systemOne, Alvin and DiVA.
 
 
 ## Run locally using minicube, with fitnesse and jsclient
