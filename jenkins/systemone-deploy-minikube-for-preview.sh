@@ -32,6 +32,13 @@ echo "Applying persistent volume definitions"
 kubectl apply -f helm-${NAMESPACE}-minikube-persistent-volumes.yaml --namespace=$NAMESPACE
 
 echo ""
+echo "TEMPORARY STEP BEFORE RELEASED CHARTS"
+echo "setting upp systemone chart"
+helm dependency build cora/
+helm dependency update systemone/
+echo "END TEMPORARY STEP BEFORE RELEASED CHARTS"
+
+echo ""
 echo "Installing Helm chart 'systemone' as release '$NAMESPACE' with FitNesse enabled in namespace '$NAMESPACE'..."
 helm install $NAMESPACE systemone --namespace $NAMESPACE --set deploy.fitnesse=true
 
