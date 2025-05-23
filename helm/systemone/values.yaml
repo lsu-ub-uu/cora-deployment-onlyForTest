@@ -51,7 +51,7 @@ port:
   jsclient: 30280
   idplogin: 30380
   fitnesse: 30580
-dockers:
+docker:
   rabbitmq: cora-docker-rabbitmq:1.0.0
   fedora: cora-docker-fedora:1.0-SNAPSHOT
   solr: cora-docker-solr:1.0-SNAPSHOT
