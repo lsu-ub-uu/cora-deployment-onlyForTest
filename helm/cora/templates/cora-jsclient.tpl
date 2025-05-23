@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: {{ .Values.system.name }}-jsclient
-        image: {{ .Values.dockerRepository.url }}{{ .Values.dockers.jsclient }}
+        image: {{ .Values.dockerRepository.url }}{{ .Values.docker.jsclient }}
         ports:
         - containerPort: 8080
       imagePullSecrets:

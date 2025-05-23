@@ -16,7 +16,7 @@ spec:
         app: {{ .Values.system.name }}-binaryconverter-{{ .Values.binaryConverter.subName }}
     spec:
       initContainers:
-        {{- toYaml .Values.initContainers.waitForMq | nindent 6 }}
+        {{- toYaml .Values.initContainer.waitForMq | nindent 6 }}
       containers:
       - name: {{ .Values.system.name }}-binaryconverter-{{ .Values.binaryConverter.subName }}
         image: {{ .Values.dockerRepository.url }}cora-docker-binaryconverter:1.0-SNAPSHOT
@@ -26,9 +26,15 @@ spec:
         - name: apptokenVerifierUrl
           value: "http://login:8080/login/rest/"
         - name: loginId
-          value: "systemoneAdmin@system.cora.uu.se"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.system.name }}-secret
+              key: binaryConverterLoginId
         - name: appToken
-          value: "5d3f3ed4-4931-4924-9faa-8eaf5ac6457e"
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.system.name }}-secret
+              key: binaryConverterAppToken
         - name: rabbitMqHostName
           value: "{{ .Values.system.name }}-rabbitmq"
         - name: rabbitMqPort

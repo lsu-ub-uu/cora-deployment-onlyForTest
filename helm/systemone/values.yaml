@@ -129,19 +129,22 @@ system:
 dockerRepository:
   url: docker.epc.ub.uu.se/
 
-initContainers:
+initContainer:
   waitForDb:
      - name: init-wait-for-db
        image: alpine
        command: ["/bin/sh", "-c", "while ! nc -zvw1 systemone-postgresql 5432; do sleep 1; done"]
   waitForMq:
-    - name: check-rabbitmq
+    - name: init-wait-for-mq
       image: alpine
       command: ['sh', '-c', 'until nc -z -v -w1 systemone-rabbitmq 5672; do echo "Waiting for RabbitMQ.."; sleep 5; done']
 
 deploy:
   fitnesse: false
   jsclient: true
+
+externalPath:
+  login: /login/rest/
 
 port:
   rest: 30080
@@ -150,7 +153,7 @@ port:
   idplogin: 30380
   fitnesse: 30580
 
-dockers:
+docker:
   rabbitmq: cora-docker-rabbitmq:1.1-SNAPSHOT
   fedora: cora-docker-fedora:1.0-SNAPSHOT
   solr: cora-docker-solr:1.0-SNAPSHOT
@@ -159,7 +162,6 @@ dockers:
   postgresql: systemone-docker-postgresql:1.0-SNAPSHOT
   fitnesse: systemone-docker-fitnesse:1.2-SNAPSHOT
   gatekeeper: systemone-docker-gatekeeper:1.0-SNAPSHOT
-  jsclient: cora-docker-jsclient:1.0-SNAPSHOT
   rest: systemone-docker:1.0-SNAPSHOT
   login: cora-docker-login:1.0-SNAPSHOT
-
+  jsclient: cora-docker-jsclient:1.0-SNAPSHOT

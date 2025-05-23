@@ -16,16 +16,18 @@ spec:
         app: {{ .Values.system.name }}-login
     spec:
       initContainers:
-        {{- toYaml .Values.initContainers.waitForDb | nindent 6 }}
+        {{- toYaml .Values.initContainer.waitForDb | nindent 6 }}
       containers:
       - name: {{ .Values.system.name }}-login
-        image: {{ .Values.dockerRepository.url }}{{ .Values.dockers.login }}
+        image: {{ .Values.dockerRepository.url }}{{ .Values.docker.login }}
         ports:
         - containerPort: 8080
 #        env:
 #        - name: JAVA_OPTS
 #          value: -Dlogin.public.path.to.system=/login/rest/ -Ddburl=jdbc:postgresql://systemone-postgresql:5432/systemone -Ddbusername=systemone -Ddbpassword=systemone
         env:
+        - name: loginPublicPathToSystem
+          value: {{ .Values.externalPath.login }}
         - name: POSTGRES_URL
           value: jdbc:postgresql://{{ .Values.system.name }}-postgresql:5432/{{ .Values.system.name }}
         - name: POSTGRES_USER
@@ -39,7 +41,7 @@ spec:
               name: {{ .Values.system.name }}-secret
               key: POSTGRES_PASSWORD
         - name: JAVA_OPTS
-          value: -Dlogin.public.path.to.system=/login/rest/ -Ddburl=$(POSTGRES_URL) -Ddbusername=$(POSTGRES_USER) -Ddbpassword=$(POSTGRES_PASSWORD)
+          value: -Dlogin.public.path.to.system=$(loginPublicPathToSystem) -Ddburl=$(POSTGRES_URL) -Ddbusername=$(POSTGRES_USER) -Ddbpassword=$(POSTGRES_PASSWORD)
         
       imagePullSecrets:
       - name: cora-dockers

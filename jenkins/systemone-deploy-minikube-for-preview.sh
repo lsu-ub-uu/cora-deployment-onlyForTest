@@ -40,7 +40,7 @@ echo "END TEMPORARY STEP BEFORE RELEASED CHARTS"
 
 echo ""
 echo "Installing Helm chart 'systemone' as release '$NAMESPACE' with FitNesse enabled in namespace '$NAMESPACE'..."
-helm install $NAMESPACE systemone --namespace $NAMESPACE --set deploy.fitnesse=true
+helm install $NAMESPACE systemone --namespace $NAMESPACE -f ../jenkins/build-values.yaml
 
 echo ""
 echo "Waiting for all pods in '$NAMESPACE' namespace to become ready (timeout: 300s)..."

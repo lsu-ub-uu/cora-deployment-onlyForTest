@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: {{ .Values.system.name }}-rabbitmq
-        image: {{ .Values.dockerRepository.url }}{{ .Values.dockers.rabbitmq }}
+        image: {{ .Values.dockerRepository.url }}{{ .Values.docker.rabbitmq }}
         ports:
         - containerPort: 5672
       imagePullSecrets:

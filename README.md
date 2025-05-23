@@ -15,7 +15,7 @@ minikube start --memory 32192 --cpus 16 --mount --mount-string "/mnt/someplace/m
 cd helm
 kubectl create namespace helm-systemone
 kubectl apply -f helm-systemone-minikube-persistent-volumes.yaml
-helm install my20250521systemone systemone --namespace helm-systemone --set deploy.fitnesse=true
+helm install my20250523systemone systemone --namespace helm-systemone --set deploy.fitnesse=true
 ```
 you can watch the progress with:
 
@@ -36,7 +36,7 @@ This should start a local version of systemOne accessable at:<br>
 
 ## to remove and start over
 ```bash
-helm uninstall -n helm-systemone my20250521systemone
+helm uninstall -n helm-systemone my20250523systemone
 kubectl delete $(kubectl get pv -o name | grep '^persistentvolume/helm-systemone')
 kubectl delete namespace helm-systemone
 minikube ssh -- "sudo rm -rf /mnt/minikube/systemone/"

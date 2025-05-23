@@ -16,10 +16,10 @@ spec:
         app: {{ .Values.system.name }}-idplogin
     spec:
       initContainers:
-        {{- toYaml .Values.initContainers.waitForDb | nindent 6 }}
+        {{- toYaml .Values.initContainer.waitForDb | nindent 6 }}
       containers:
       - name: {{ .Values.system.name }}-idplogin
-        image: {{ .Values.dockerRepository.url }}{{ .Values.dockers.idplogin }}
+        image: {{ .Values.dockerRepository.url }}{{ .Values.docker.idplogin }}
         ports:
         - containerPort: 8080
         env:
