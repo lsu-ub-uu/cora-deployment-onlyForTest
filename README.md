@@ -68,7 +68,7 @@ This should start a local version of diva accessable at:<br>
 
 ### to remove and start over
 ```bash
-helm uninstall -n helm-systemone my20250523diva
+helm uninstall -n diva my20250523diva
 kubectl delete $(kubectl get pv -o name | grep '^persistentvolume/diva')
 kubectl delete namespace diva
 minikube ssh -- "sudo rm -rf /mnt/minikube/diva/"
