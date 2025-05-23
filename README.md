@@ -2,14 +2,13 @@
 
 This repo hold helm charts for systemOne, Alvin and DiVA.
 
-
-## Run locally using minicube, with fitnesse and jsclient
-
 start minikube, adjust as needed
 
 ```bash
 minikube start --memory 32192 --cpus 16 --mount --mount-string "/mnt/someplace/minikube/:/mnt/minikube"
 ```
+
+## Run systemOne locally using minicube, with fitnesse and jsclient
 
 ```bash
 cd helm
@@ -34,10 +33,45 @@ This should start a local version of systemOne accessable at:<br>
 * fitnesse: http://192.168.49.2:30580/fitnesse/
 
 
-## to remove and start over
+### to remove and start over
 ```bash
 helm uninstall -n helm-systemone my20250523systemone
 kubectl delete $(kubectl get pv -o name | grep '^persistentvolume/helm-systemone')
 kubectl delete namespace helm-systemone
 minikube ssh -- "sudo rm -rf /mnt/minikube/systemone/"
 ```
+
+## Run DiVA locally using minicube, with fitnesse and jsclient
+
+```bash
+cd helm
+kubectl create namespace diva
+kubectl apply -f diva-minikube-persistent-volumes.yaml
+helm install my20250523diva diva --namespace diva --set deploy.fitnesse=true
+```
+you can watch the progress with:
+
+```bash
+watch -n 1 kubectl get pod,service -n diva
+```
+
+get your minikube ip: minikube ip
+
+
+This should start a local version of diva accessable at:<br>
+* rest: http://192.168.49.2:30082/diva/rest/
+* login: localhost:30182/
+* jsClient: http://192.168.49.2:30282/jsclient/
+* idplogin: localhost:30382/login
+* fitnesse: http://192.168.49.2:30582/fitnesse/
+
+
+### to remove and start over
+```bash
+helm uninstall -n helm-systemone my20250523diva
+kubectl delete $(kubectl get pv -o name | grep '^persistentvolume/diva')
+kubectl delete namespace diva
+minikube ssh -- "sudo rm -rf /mnt/minikube/diva/"
+```
+
+

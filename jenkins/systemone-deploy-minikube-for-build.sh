@@ -29,7 +29,7 @@ kubectl create namespace $NAMESPACE
 
 echo ""
 echo "Applying persistent volume definitions"
-kubectl apply -f helm-${NAMESPACE}-minikube-persistent-volumes.yaml --namespace=$NAMESPACE
+kubectl apply -f ${NAMESPACE}-minikube-persistent-volumes.yaml --namespace=$NAMESPACE
 
 echo ""
 echo "TEMPORARY STEP BEFORE RELEASED CHARTS"
@@ -40,7 +40,7 @@ echo "END TEMPORARY STEP BEFORE RELEASED CHARTS"
 
 echo ""
 echo "Installing Helm chart 'systemone' as release '$NAMESPACE' in namespace '$NAMESPACE'..."
-helm install $NAMESPACE systemone --namespace $NAMESPACE -f ../jenkins/build-values.yaml
+helm install $NAMESPACE systemone --namespace $NAMESPACE -f ../jenkins/${NAMESPACE}-build-values.yaml
 
 echo ""
 echo "Waiting for all pods in '$NAMESPACE' namespace to become ready (timeout: 300s)..."

@@ -25,5 +25,5 @@ appVersion: "1.21.0"
 
 dependencies:
   - name: cora
-    version: 0.0.4
+    version: 0.0.5
     repository: file://../cora

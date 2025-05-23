@@ -22,9 +22,6 @@ spec:
         image: {{ .Values.dockerRepository.url }}{{ .Values.docker.login }}
         ports:
         - containerPort: 8080
-#        env:
-#        - name: JAVA_OPTS
-#          value: -Dlogin.public.path.to.system=/login/rest/ -Ddburl=jdbc:postgresql://systemone-postgresql:5432/systemone -Ddbusername=systemone -Ddbpassword=systemone
         env:
         - name: loginPublicPathToSystem
           value: {{ .Values.externalPath.login }}

@@ -1,20 +1,11 @@
-#postgresql
-
-#pvSharedArchive #ReadWriteMany
-#pvcSharedArchiveReadWrite #ReadWriteMany
-#pvcSharedArchiveReadOnly #ReadOnlyMany
-
-#pvConvertedFiles #ReadWriteMany
-#pvcConvertedFilesReadWrite #ReadWriteMany
-#pvcConvertedFilesReadOnly #ReadOnlyMany
-
+{{- define "cora.persistentVolumeClaims" -}}
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: systemone-postgres-volume-claim
+  name: {{ .Values.system.name }}-postgres-volume-claim
   labels:
-    app: systemone-postgres
+    app: {{ .Values.system.name }}-postgres
 spec:
   storageClassName: manual
   accessModes:
@@ -28,9 +19,9 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: systemone-archive-read-write-volume-claim
+  name: {{ .Values.system.name }}-archive-read-write-volume-claim
   labels:
-    app: systemone-archive
+    app: {{ .Values.system.name }}-archive
 spec:
   storageClassName: manual
   accessModes:
@@ -44,9 +35,9 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: systemone-archive-read-only-volume-claim
+  name: {{ .Values.system.name }}-archive-read-only-volume-claim
   labels:
-    app: systemone-archive-read-only-volume
+    app: {{ .Values.system.name }}-archive-read-only-volume
 spec:
   storageClassName: manual
   accessModes:
@@ -60,9 +51,9 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: systemone-converted-files-read-write-volume-claim
+  name: {{ .Values.system.name }}-converted-files-read-write-volume-claim
   labels:
-    app: systemone-converted-files
+    app: {{ .Values.system.name }}-converted-files
 spec:
   storageClassName: manual
   accessModes:
@@ -76,9 +67,9 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: systemone-converted-files-read-only-volume-claim
+  name: {{ .Values.system.name }}-converted-files-read-only-volume-claim
   labels:
-    app: systemone-converted-files-read-only-volume
+    app: {{ .Values.system.name }}-converted-files-read-only-volume
 spec:
   storageClassName: manual
   accessModes:
@@ -88,3 +79,4 @@ spec:
       storage: 20Gi
 
 ---
+{{- end }}
