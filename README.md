@@ -36,7 +36,7 @@ This should start a local version of systemOne accessable at:<br>
 ### to remove and start over
 ```bash
 helm uninstall -n systemone my20250523systemone
-kubectl delete $(kubectl get pv -o name | grep '^persistentvolume/systemone')
+kubectl get pv -o name | grep "^persistentvolume/systemone | xargs -r kubectl delete
 kubectl delete namespace systemone
 minikube ssh -- "sudo rm -rf /mnt/minikube/systemone/"
 ```
@@ -69,7 +69,7 @@ This should start a local version of diva accessable at:<br>
 ### to remove and start over
 ```bash
 helm uninstall -n diva my20250526alvin
-kubectl delete $(kubectl get pv -o name | grep '^persistentvolume/alvin')
+kubectl get pv -o name | grep "^persistentvolume/alvin | xargs -r kubectl delete
 kubectl delete namespace alvin
 minikube ssh -- "sudo rm -rf /mnt/minikube/alvin/"
 ```
@@ -103,7 +103,7 @@ This should start a local version of diva accessable at:<br>
 ### to remove and start over
 ```bash
 helm uninstall -n diva my20250523diva
-kubectl delete $(kubectl get pv -o name | grep '^persistentvolume/diva')
+kubectl get pv -o name | grep "^persistentvolume/diva | xargs -r kubectl delete
 kubectl delete namespace diva
 minikube ssh -- "sudo rm -rf /mnt/minikube/diva/"
 ```
