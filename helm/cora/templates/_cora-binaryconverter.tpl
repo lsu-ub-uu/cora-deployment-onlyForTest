@@ -19,7 +19,7 @@ spec:
         {{- toYaml .Values.initContainer.waitForMq | nindent 6 }}
       containers:
       - name: {{ .Values.system.name }}-binaryconverter-{{ .Values.binaryConverter.subName }}
-        image: {{ .Values.dockerRepository.url }}cora-docker-binaryconverter:1.0-SNAPSHOT
+        image: {{ .Values.dockerRepository.url }}{{ .Values.docker.binaryconverter }}
         env:
         - name: coraBaseUrl
           value: "http://{{ .Values.system.name }}:8080/{{ .Values.system.name }}/rest/"
