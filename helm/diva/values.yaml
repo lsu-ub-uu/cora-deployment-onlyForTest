@@ -161,6 +161,7 @@ docker:
   iip: cora-docker-iipimageserver:1.0-SNAPSHOT
   login: cora-docker-login:1.0-SNAPSHOT
   jsclient: cora-docker-jsclient:1.0-SNAPSHOT
+  binaryconverter: cora-docker-binaryconverter:1.2.0
 
   postgresql: diva-docker-postgresql:1.0-SNAPSHOT
   fitnesse: diva-cora-docker-fitnesse:1.1-SNAPSHOT
