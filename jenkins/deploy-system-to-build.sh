@@ -1,5 +1,5 @@
 #!/bin/bash
-NAME="systemone"
+NAME=$1
 NAMESPACE="$NAME-build"
 
 echo ""
