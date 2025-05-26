@@ -1,4 +1,4 @@
-## Default values for diva.
+## Default values for alvin.
 ## This is a YAML-formatted file.
 ## Declare variables to be passed into your templates.
 #
@@ -123,8 +123,8 @@ autoscaling:
 #affinity: {}
 #
 system:
-  name: diva
-  pathName: diva
+  name: alvin
+  pathName: alvin
 
 dockerRepository:
   url: docker.epc.ub.uu.se/
@@ -133,11 +133,11 @@ initContainer:
   waitForDb:
      - name: init-wait-for-db
        image: alpine
-       command: ["/bin/sh", "-c", "while ! nc -zvw1 diva-postgresql 5432; do sleep 1; done"]
+       command: ["/bin/sh", "-c", "while ! nc -zvw1 alvin-postgresql 5432; do sleep 1; done"]
   waitForMq:
     - name: init-wait-for-mq
       image: alpine
-      command: ['sh', '-c', 'until nc -z -v -w1 diva-rabbitmq 5672; do echo "Waiting for RabbitMQ.."; sleep 5; done']
+      command: ['sh', '-c', 'until nc -z -v -w1 alvin-rabbitmq 5672; do echo "Waiting for RabbitMQ.."; sleep 5; done']
 
 deploy:
   fitnesse: false
@@ -147,11 +147,11 @@ externalPath:
   login: /login/rest/
 
 port:
-  rest: 30082
-  login: 30182
-  jsclient: 30282
-  idplogin: 30382
-  fitnesse: 30582
+  rest: 30081
+  login: 30181
+  jsclient: 30281
+  idplogin: 30381
+  fitnesse: 30581
 
 docker:
   rabbitmq: cora-docker-rabbitmq:1.1-SNAPSHOT
@@ -162,8 +162,8 @@ docker:
   login: cora-docker-login:1.0-SNAPSHOT
   jsclient: cora-docker-jsclient:1.0-SNAPSHOT
 
-  postgresql: diva-docker-postgresql:1.0-SNAPSHOT
-  fitnesse: diva-cora-docker-fitnesse:1.1-SNAPSHOT
-  gatekeeper: diva-docker-gatekeeper:1.0-SNAPSHOT
-  rest: diva-docker-cora:1.0-SNAPSHOT
-  
+  postgresql: alvin-docker-postgresql:1.0-SNAPSHOT
+  fitnesse: alvin-cora-docker-fitnesse:1.1-SNAPSHOT
+  gatekeeper: alvin-docker-gatekeeper:1.0-SNAPSHOT
+  rest: alvin-docker-cora:1.0-SNAPSHOT
+    

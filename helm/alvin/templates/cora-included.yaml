@@ -1,0 +1,25 @@
+{{ include "cora.persistentVolumeClaims" . }}
+---
+{{ include "cora.solr" . }}
+---
+{{ include "cora.idplogin" . }}
+---
+{{ include "cora.rabbitmq" . }}
+---
+{{ include "cora.fedora" . }}
+---
+{{ include "cora.fitnesse" . }}
+---
+{{ include "cora.gatekeeper" . }}
+---
+{{ include "cora.iip" . }}
+---
+{{ include "cora.jsclient" . }}
+---
+{{ include "cora.rest" . }}
+---
+{{ include "cora.postgresql" . }}
+---
+{{ include "cora.login" . }}
+---
+{{ include "cora.binaryconverter" . }}

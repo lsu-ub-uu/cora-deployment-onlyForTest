@@ -41,6 +41,40 @@ kubectl delete namespace systemone
 minikube ssh -- "sudo rm -rf /mnt/minikube/systemone/"
 ```
 
+## Run Alvin locally using minicube, with fitnesse and jsclient
+
+```bash
+cd helm
+kubectl create namespace alvin
+kubectl apply -f alvin-minikube-persistent-volumes.yaml
+helm install my20250526alvin alvin --namespace alvin --set deploy.fitnesse=true
+```
+you can watch the progress with:
+
+```bash
+watch -n 1 kubectl get pod,service -n alvin
+```
+
+get your minikube ip: minikube ip
+
+
+This should start a local version of diva accessable at:<br>
+* rest: http://192.168.49.2:30081/alvin/rest/
+* login: localhost:30181/
+* jsClient: http://192.168.49.2:30281/jsclient/
+* idplogin: localhost:30381/login
+* fitnesse: http://192.168.49.2:30581/alvin/fitnesse/
+
+
+### to remove and start over
+```bash
+helm uninstall -n diva my20250526alvin
+kubectl delete $(kubectl get pv -o name | grep '^persistentvolume/alvin')
+kubectl delete namespace alvin
+minikube ssh -- "sudo rm -rf /mnt/minikube/alvin/"
+```
+
+
 ## Run DiVA locally using minicube, with fitnesse and jsclient
 
 ```bash
