@@ -12,6 +12,7 @@ minikube start --memory 32192 --cpus 16 --mount --mount-string "/mnt/someplace/m
 
 ```bash
 cd helm
+helm dependency update systemone/
 kubectl create namespace systemone
 kubectl apply -f systemone-minikube-persistent-volumes.yaml
 helm install my20250523systemone systemone --namespace systemone --set deploy.fitnesse=true
@@ -50,6 +51,7 @@ minikube ssh -- "sudo rm -rf /mnt/minikube/systemone/"
 
 ```bash
 cd helm
+helm dependency update alvin/
 kubectl create namespace alvin
 kubectl apply -f alvin-minikube-persistent-volumes.yaml
 helm install my20250526alvin alvin --namespace alvin --set deploy.fitnesse=true
@@ -91,6 +93,7 @@ minikube ssh -- "sudo rm -rf /mnt/minikube/alvin/"
 
 ```bash
 cd helm
+helm dependency update diva/
 kubectl create namespace diva
 kubectl apply -f diva-minikube-persistent-volumes.yaml
 helm install my20250523diva diva --namespace diva --set deploy.fitnesse=true
