@@ -12,11 +12,12 @@ kubectl delete namespace $NAMESPACE
 
 echo ""
 echo "Deleting persistent volumes for '$NAMESPACE'..."
-kubectl delete pv ${NAMESPACE}-postgres-volume
-kubectl delete pv ${NAMESPACE}-archive-volume
-kubectl delete pv ${NAMESPACE}-archive-read-only-volume
-kubectl delete pv ${NAMESPACE}-converted-files-volume
-kubectl delete pv ${NAMESPACE}-converted-files-read-only-volume
+#kubectl delete pv ${NAMESPACE}-postgres-volume
+#kubectl delete pv ${NAMESPACE}-archive-volume
+#kubectl delete pv ${NAMESPACE}-archive-read-only-volume
+#kubectl delete pv ${NAMESPACE}-converted-files-volume
+#kubectl delete pv ${NAMESPACE}-converted-files-read-only-volume
+kubectl get pv -o name | grep "^persistentvolume/${NAMESPACE}" | xargs -r kubectl delete
 
 echo ""
 echo "Removing local persistent data from /mnt/minikube/$NAME/build..."
