@@ -19,7 +19,13 @@ helm install my20250523systemone systemone --namespace systemone --set deploy.fi
 you can watch the progress with:
 
 ```bash
-watch -n 1 kubectl get pod,service -n systemone
+watch -n 1 '
+  kubectl get pod,service -n systemone;
+  echo;
+  echo "🔹 Images in use:";
+  kubectl get pods -n systemone -o jsonpath="{range .items[*]}{range .spec.containers[*]}{.image}{\"\n\"}{end}" | sort | uniq
+'
+
 ```
 
 get your minikube ip: minikube ip
@@ -52,7 +58,13 @@ helm install my20250526alvin alvin --namespace alvin --set deploy.fitnesse=true
 you can watch the progress with:
 
 ```bash
-watch -n 1 kubectl get pod,service -n alvin
+watch -n 1 '
+  kubectl get pod,service -n alvin;
+  echo;
+  echo "🔹 Images in use:";
+  kubectl get pods -n alvin -o jsonpath="{range .items[*]}{range .spec.containers[*]}{.image}{\"\n\"}{end}" | sort | uniq
+'
+
 ```
 
 get your minikube ip: minikube ip
@@ -86,7 +98,13 @@ helm install my20250523diva diva --namespace diva --set deploy.fitnesse=true
 you can watch the progress with:
 
 ```bash
-watch -n 1 kubectl get pod,service -n diva
+watch -n 1 '
+  kubectl get pod,service -n diva;
+  echo;
+  echo "🔹 Images in use:";
+  kubectl get pods -n diva -o jsonpath="{range .items[*]}{range .spec.containers[*]}{.image}{\"\n\"}{end}" | sort | uniq
+'
+
 ```
 
 get your minikube ip: minikube ip
