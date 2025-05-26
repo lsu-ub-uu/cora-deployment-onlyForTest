@@ -22,10 +22,9 @@ you can watch the progress with:
 watch -n 1 '
   kubectl get pod,service -n systemone;
   echo;
-  echo "🔹 Images in use:";
+  echo "🐳 Images in use:";
   kubectl get pods -n systemone -o jsonpath="{range .items[*]}{range .spec.containers[*]}{.image}{\"\n\"}{end}" | sort | uniq
 '
-
 ```
 
 get your minikube ip: minikube ip
@@ -61,9 +60,10 @@ you can watch the progress with:
 watch -n 1 '
   kubectl get pod,service -n alvin;
   echo;
-  echo "🔹 Images in use:";
+  echo "🐳 Images in use:";
   kubectl get pods -n alvin -o jsonpath="{range .items[*]}{range .spec.containers[*]}{.image}{\"\n\"}{end}" | sort | uniq
 '
+
 
 ```
 
@@ -101,9 +101,10 @@ you can watch the progress with:
 watch -n 1 '
   kubectl get pod,service -n diva;
   echo;
-  echo "🔹 Images in use:";
+  echo "🐳 Images in use:";
   kubectl get pods -n diva -o jsonpath="{range .items[*]}{range .spec.containers[*]}{.image}{\"\n\"}{end}" | sort | uniq
 '
+
 
 ```
 
