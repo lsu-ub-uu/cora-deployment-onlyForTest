@@ -14,6 +14,7 @@ minikube start --memory 32192 --cpus 16 --mount --mount-string "/mnt/someplace/m
 cd helm
 helm dependency update systemone/
 kubectl create namespace systemone
+kubectl apply -f systemone-secret.yaml --namespace=systemone
 kubectl apply -f systemone-minikube-persistent-volumes.yaml
 helm install my20250523systemone systemone --namespace systemone --set deploy.fitnesse=true
 ```
@@ -43,6 +44,7 @@ This should start a local version of systemOne accessable at:<br>
 ```bash
 helm uninstall -n systemone my20250523systemone
 kubectl get pv -o name | grep "^persistentvolume/systemone" | xargs -r kubectl delete
+kubectl delete secret systemone-secret --namespace=systemone
 kubectl delete namespace systemone
 minikube ssh -- "sudo rm -rf /mnt/minikube/systemone/"
 ```
@@ -53,6 +55,7 @@ minikube ssh -- "sudo rm -rf /mnt/minikube/systemone/"
 cd helm
 helm dependency update alvin/
 kubectl create namespace alvin
+kubectl apply -f alvin-secret.yaml --namespace=alvin
 kubectl apply -f alvin-minikube-persistent-volumes.yaml
 helm install my20250526alvin alvin --namespace alvin --set deploy.fitnesse=true
 ```
@@ -84,6 +87,7 @@ This should start a local version of diva accessable at:<br>
 ```bash
 helm uninstall -n diva my20250526alvin
 kubectl get pv -o name | grep "^persistentvolume/alvin" | xargs -r kubectl delete
+kubectl delete secret alvin-secret --namespace=alvin
 kubectl delete namespace alvin
 minikube ssh -- "sudo rm -rf /mnt/minikube/alvin/"
 ```
@@ -95,6 +99,7 @@ minikube ssh -- "sudo rm -rf /mnt/minikube/alvin/"
 cd helm
 helm dependency update diva/
 kubectl create namespace diva
+kubectl apply -f diva-secret.yaml --namespace=diva
 kubectl apply -f diva-minikube-persistent-volumes.yaml
 helm install my20250523diva diva --namespace diva --set deploy.fitnesse=true
 ```
@@ -126,6 +131,7 @@ This should start a local version of diva accessable at:<br>
 ```bash
 helm uninstall -n diva my20250523diva
 kubectl get pv -o name | grep "^persistentvolume/diva" | xargs -r kubectl delete
+kubectl delete secret diva-secret --namespace=diva
 kubectl delete namespace diva
 minikube ssh -- "sudo rm -rf /mnt/minikube/diva/"
 ```

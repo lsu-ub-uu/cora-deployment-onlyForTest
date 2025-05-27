@@ -7,6 +7,10 @@ echo "Uninstalling Helm release '$NAMESPACE' from namespace '$NAMESPACE'..."
 helm uninstall $NAMESPACE -n $NAMESPACE
 
 echo ""
+echo "Deleting secret..."
+kubectl delete secret systemone-secret --namespace=$NAMESPACE
+
+echo ""
 echo "Deleting Kubernetes namespace '$NAMESPACE'..."
 kubectl delete namespace $NAMESPACE
 
@@ -26,6 +30,10 @@ echo ""
 echo "Creating namespace '$NAMESPACE'..."
 cd helm
 kubectl create namespace $NAMESPACE
+
+echo ""
+echo "Applying secret"
+kubectl apply -f systemone-secret.yaml --namespace=$NAMESPACE
 
 echo ""
 echo "Applying persistent volume definitions"
